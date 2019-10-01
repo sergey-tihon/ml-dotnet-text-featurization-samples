@@ -12,6 +12,7 @@ namespace TextFeaturization
             new BinaryClassifier(),
             new FeaturizeTextOptionsClassifier(),
             new GloVeTwitterThoughtVectorClassifier(),
+            new GloVeDetoxThoughtVectorClassifier()
         };
 
         [TestCaseSource(nameof(_classifiers))]
@@ -25,5 +26,9 @@ namespace TextFeaturization
         [TestCaseSource(nameof(_classifiers))]
         public void SaveErrors(BinaryClassifier classifier)
             => classifier.Errors();
+
+        [Test]
+        public void PrepareTokensForGlove() =>
+            new GloVeDetoxThoughtVectorClassifier().PrepareGloveTrainingData();
     }
 }

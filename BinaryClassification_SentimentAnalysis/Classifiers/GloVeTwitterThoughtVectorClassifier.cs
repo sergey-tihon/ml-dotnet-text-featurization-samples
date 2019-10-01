@@ -41,7 +41,7 @@ namespace TextFeaturization.Classifiers
                 => output.ThoughtVector = glove.GetThoughtVector(input.Tokens);
 
             return Context.Transforms.Text.NormalizeText("NormalizedMessage", nameof(SentimentIssue.Text), keepPunctuations:false, keepNumbers:false)
-                .Append(Context.Transforms.Text.TokenizeIntoWords("Tokens", "NormalizedMessage"))
+                .Append(Context.Transforms.Text.TokenizeIntoWords("Tokens", "NormalizedMessage", new[] { ' ', '=', '!', '~', '|'}))
                 //.Append(Context.Transforms.Text.RemoveDefaultStopWords("Tokens"))
                 .Append(Context.Transforms.CustomMapping((Action<InputRow, OutputRow>) Mapping, nameof(Mapping)))
 
