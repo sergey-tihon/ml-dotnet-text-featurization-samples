@@ -102,7 +102,7 @@ namespace TextFeaturization.Classifiers
         private void PrintBinaryClassificationMetrics(CalibratedBinaryClassificationMetrics metrics)
         {
             Console.WriteLine($"************************************************************");
-            Console.WriteLine($"*       Metrics for {GetType().Name} binary classification model      ");
+            Console.WriteLine($"*       Metrics for {GetType().Name}");
             Console.WriteLine($"*-----------------------------------------------------------");
             Console.WriteLine($"*       Accuracy: {metrics.Accuracy:P2}");
             Console.WriteLine($"*       F1Score:  {metrics.F1Score:P2}");

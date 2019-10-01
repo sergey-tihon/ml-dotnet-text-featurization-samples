@@ -5,10 +5,9 @@ namespace TextFeaturization.Common
 {
     public class Helpers
     {
+        public static readonly string DataFolder = GetAbsolutePath("../../../../data/");
         public static readonly string DataPath = GetAbsolutePath("../../../../data/wikiDetoxAnnotated40kRows.tsv");
         public static readonly string OutputFolder = GetAbsolutePath("../../../Output");
-
-        public static readonly string GloVeFolder = GetAbsolutePath("../../../GloVe");
 
         private static string GetAbsolutePath(string relativePath)
         {

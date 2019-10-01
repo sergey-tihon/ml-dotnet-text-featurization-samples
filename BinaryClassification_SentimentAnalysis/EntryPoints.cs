@@ -11,7 +11,7 @@ namespace TextFeaturization
         {
             new BinaryClassifier(),
             new FeaturizeTextOptionsClassifier(),
-            //new GloVeThoughtVectorClassifier(),
+            new GloVeTwitterThoughtVectorClassifier(),
         };
 
         [TestCaseSource(nameof(_classifiers))]

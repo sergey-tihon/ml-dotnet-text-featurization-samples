@@ -434,3 +434,4 @@ $RECYCLE.BIN/
 
 # Custom
 BinaryClassification_SentimentAnalysis/output/*
+data/glove-twitter/*
