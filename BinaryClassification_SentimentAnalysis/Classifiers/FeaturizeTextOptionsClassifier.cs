@@ -12,7 +12,13 @@ namespace TextFeaturization.Classifiers
         {}
 
         protected override IEstimator<ITransformer> GetDataProcessPipeline() {
-            var options = new TextFeaturizingEstimator.Options
+            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.ml.transforms.text.textfeaturizingestimator?view=ml-dotnet
+            // https://github.com/dotnet/machinelearning/blob/ec6ff086edf685bdb64e244d14fd4ff8f5e6af4d/src/Microsoft.ML.Transforms/Text/TextFeaturizingEstimator.cs
+            return Context.Transforms.Text.FeaturizeText("Features", Options, nameof(SentimentIssue.Text));
+        }
+
+        public static TextFeaturizingEstimator.Options Options =>
+            new TextFeaturizingEstimator.Options
             {
                 Norm = TextFeaturizingEstimator.NormFunction.L2,
                 CaseMode = TextNormalizingEstimator.CaseMode.Lower,
@@ -38,9 +44,5 @@ namespace TextFeaturization.Classifiers
                     Weighting = NgramExtractingEstimator.WeightingCriteria.TfIdf // Tf
                 }
             };
-            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.ml.transforms.text.textfeaturizingestimator?view=ml-dotnet
-            // https://github.com/dotnet/machinelearning/blob/ec6ff086edf685bdb64e244d14fd4ff8f5e6af4d/src/Microsoft.ML.Transforms/Text/TextFeaturizingEstimator.cs
-            return Context.Transforms.Text.FeaturizeText("Features", options, nameof(SentimentIssue.Text));
-        }
     }
 }

@@ -12,7 +12,8 @@ namespace TextFeaturization
             new BinaryClassifier(),
             new FeaturizeTextOptionsClassifier(),
             new GloVeTwitterThoughtVectorClassifier(),
-            new GloVeDetoxThoughtVectorClassifier()
+            new GloVeDetoxThoughtVectorClassifier(),
+            new MixedClassifier()
         };
 
         [TestCaseSource(nameof(_classifiers))]

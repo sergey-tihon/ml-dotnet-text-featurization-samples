@@ -1,12 +1,5 @@
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 using Microsoft.ML;
 using Microsoft.ML.Data;
@@ -15,10 +8,10 @@ using TextFeaturization.Common;
 
 namespace TextFeaturization.Classifiers
 {
-    public class GloVeTwitterThoughtVectorClassifier: BinaryClassifier
+    public class MixedClassifier: BinaryClassifier
     {
-        public GloVeTwitterThoughtVectorClassifier()
-            : base("Glove_TwitterVectors")
+        public MixedClassifier()
+            : base("Mixed")
         {}
 
         class InputRow
@@ -40,13 +33,14 @@ namespace TextFeaturization.Classifiers
             void Mapping(InputRow input, OutputRow output)
                 => output.ThoughtVector = glove.GetThoughtVector(input.Tokens);
 
-            return Context.Transforms.Text.NormalizeText("NormalizedMessage", nameof(SentimentIssue.Text), keepPunctuations:false, keepNumbers:false)
+            return Context.Transforms.Text.FeaturizeText("TextFeatures", FeaturizeTextOptionsClassifier.Options, nameof(SentimentIssue.Text))
+                .Append(Context.Transforms.Text.NormalizeText("NormalizedMessage", nameof(SentimentIssue.Text), keepPunctuations:false, keepNumbers:false))
                 .Append(Context.Transforms.Text.TokenizeIntoWords("Tokens", "NormalizedMessage", new[] { ' ', '=', '!', '~', '|'}))
                 .Append(Context.Transforms.Text.RemoveDefaultStopWords("Tokens"))
                 .Append(Context.Transforms.CustomMapping((Action<InputRow, OutputRow>) Mapping, nameof(Mapping)))
 
-                .Append(Context.Transforms.CopyColumns("Features", "ThoughtVector"))
-                .Append(Context.Transforms.DropColumns("NormalizedMessage", "Tokens", "ThoughtVector"))
+                .Append(Context.Transforms.Concatenate("Features", "ThoughtVector", "TextFeatures"))
+                .Append(Context.Transforms.DropColumns("NormalizedMessage", "Tokens", "ThoughtVector", "TextFeatures"))
                 .AppendCacheCheckpoint(Context);
         }
     }
